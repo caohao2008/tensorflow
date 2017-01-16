@@ -1,0 +1,11 @@
+modify 
+/opt/meituan/virtualenv/python3.4/lib/python3.4/site-packages/tensorflow/contrib/layers/python/layers/feature_column_ops.py
+
+change function : check_feature_columns
+comment these code
+    #if key in seen_keys:
+    #  raise ValueError('Duplicate feature column key found for column: {}. '
+    #                   'This usually means that the column is almost identical '
+    #                   'to another column, and one must be discarded.'.format(
+    #                       f.name))
+ 
