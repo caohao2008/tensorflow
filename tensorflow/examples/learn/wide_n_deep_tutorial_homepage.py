@@ -39,7 +39,8 @@ flags.DEFINE_string(
     "",
     "Path to the test data.")
 
-COLUMNS = ["age", "workclass", "fnlwgt", "education", "education_num",
+
+COLUMNS = ["label","age", "workclass", "fnlwgt", "education", "education_num",
            "marital_status", "occupation", "relationship", "race", "gender",
            "capital_gain", "capital_loss", "hours_per_week", "native_country",
            "income_bracket"]
@@ -69,7 +70,7 @@ def maybe_download():
     test_file_name = test_file.name
     test_file.close()
     print("Test data is downloaded to %s" % test_file_name)
-
+  
   return train_file_name, test_file_name
 
 
@@ -153,7 +154,7 @@ def input_fn(df):
   continuous_cols = {k: tf.constant(df[k].values) for k in CONTINUOUS_COLUMNS}
   ##print("arrive here");
   ##print("continuous_cols =",continuous_cols)
-  # Creates a dictionary mapping from each categorical feature column name (k)
+  # Creates a dictionary mapping from each categorcal feature column name (k)
   # to the values of that column stored in a tf.SparseTensor.
   categorical_cols = {
       k: tf.SparseTensor(
@@ -196,11 +197,11 @@ def train_and_eval():
   # remove NaN elements
   df_train = df_train.dropna(how='any', axis=0)
   df_test = df_test.dropna(how='any', axis=0)
-
-  df_train[LABEL_COLUMN] = (
-      df_train["income_bracket"].apply(lambda x: ">50K" in x)).astype(int)
-  df_test[LABEL_COLUMN] = (
-      df_test["income_bracket"].apply(lambda x: ">50K" in x)).astype(int)
+  
+  ##df_train[LABEL_COLUMN] = (
+  ##    df_train["income_bracket"].apply(lambda x: ">50K" in x)).astype(int)
+  ##df_test[LABEL_COLUMN] = (
+  ##    df_test["income_bracket"].apply(lambda x: ">50K" in x)).astype(int)
   print("labels=",df_test[LABEL_COLUMN])
 
   model_dir = tempfile.mkdtemp() if not FLAGS.model_dir else FLAGS.model_dir
