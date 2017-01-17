@@ -40,15 +40,96 @@ flags.DEFINE_string(
     "Path to the test data.")
 
 
-COLUMNS = ["label","age", "workclass", "fnlwgt", "education", "education_num",
-           "marital_status", "occupation", "relationship", "race", "gender",
-           "capital_gain", "capital_loss", "hours_per_week", "native_country",
-           "income_bracket"]
+###COLUMNS = ["label","age", "workclass", "fnlwgt", "education", "education_num",
+###           "marital_status", "occupation", "relationship", "race", "gender",
+###           "capital_gain", "capital_loss", "hours_per_week", "native_country",
+###           "income_bracket",]
+COLUMNS = ["label","ADISTANCE","APPOINTMENT","DEAL_COLLECTED","TYPE_COLLECTED","COUPON0"
+,"COUPON1","COUPON2","COUPON3","TYPE_VIEWED_PASSED_TIME","COUPON5"
+,"DAYOFWEEK1","DAYOFWEEK2","DAYOFWEEK3","DAYOFWEEK4","DAYOFWEEK5"
+,"DAYOFWEEK6","DAYOFWEEK7","DEAL_ORDERED,POI_ORDERED","DEAL_VIEWED,POI_VIEWED","DISCOUNT,POI_DISCOUNT"
+,"DISTANCE","BUZ_DELETED","TYPE_DELTED","CDISTANCE","USER_LEVEL"
+,"USER_FEEDBACK_SCORE","IN_ORDER_SIM","IN_VIEW_SIM","RTCLKNUM,POI_DEAL_RTCNUM","HOUROFDAY0"
+,"HOUROFDAY1","HOUROFDAY10","HOUROFDAY11","HOUROFDAY12","HOUROFDAY13"
+,"HOUROFDAY14","HOUROFDAY15","HOUROFDAY16","HOUROFDAY17","HOUROFDAY18"
+,"HOUROFDAY19","HOUROFDAY2","HOUROFDAY20","HOUROFDAY21","HOUROFDAY22"
+,"HOUROFDAY23","HOUROFDAY3","HOUROFDAY4","HOUROFDAY5","HOUROFDAY6"
+,"HOUROFDAY7","HOUROFDAY8","HOUROFDAY9","NEWDEAL","NUMRESULTS"
+,"ORDERCOUNT,POI_HISTORYCOUPONCOUNT","PRICE,POI_LOWESTPIRCE","BUZ_COLLECTED","DEAL_VIEWED_PASSED_TIME,POI_VIEWED_PASSED_TIME","RATECOUNT"
+,"RATEVAL","STGNUM","BUZ_VIEWED_PASSED_TIME","TYPE_ORDERED","ISREMOTE"
+,"TYPE_VIEWED","ISPROMOTION","CLASS2,POI_CLASS2","CLASS3,POI_CLASS3","CLASS4,POI_CLASS4"
+,"CLASS5,POI_CLASS5","MEAL_COUNT","AVGPRICEPERPERSON","CLASS206,POI_CLASS206","CLASS207,POI_CLASS207"
+,"CLASS208,POI_CLASS208","CLASS209,POI_CLASS209","CLASS217,POI_CLASS217","CLASS226,POI_CLASS226","BUZ_ORDERED"
+,"BUZ_VIEWED","CTR,POI_CTR","CVR,POI_CVR","CXR,POI_CXR","DEAL_POI_NUM"
+,"2hourSale","24hourSale","staticSaleScore","YOUFANGTAI","TODAYNOTAVAI"
+,"HAVENOTAVAI","CLIENT_ANDROID","CLIENT_IPHONE","CLIENT_WAP","CLIENT_IPAD"
+,"CLIENT_ANDROIDHD","CLASS_FAVOR","CATE_FAVOR","USERID0","ISLOWPRICE"
+,"ISNEWUSERPROMOTION","ISCAMPAINBRAND","DEAL_ORDERED_PASSED_TIME,POI_ORDERED_PASSED_TIME","TYPE_ORDERED_PASSED_TIME","BUZ_ORDERED_PASSED_TIME"
+,"CTR_TEST","CXR_TEST","CVR_TEST","COMMENT_NUM","RELAY_RATIO"
+,"PICTURE_RATIO","GCOMMENT_RATIO","BRAND_SCORE","BRAND_GRADE","PAYMENT_INCR"
+,"AREA_AMOUNT","DEAL_LEFT_DELETE","WEATHER_QING","WEATHER_YIN","WEATHER_YUN"
+,"WEATHER_FENG","WEATHER_XUE","WEATHER_WU","WEATHER_YU","WEATHER_TMP"
+,"WEATHER_TMP_MAX","WEATHER_TMP_MIN","WEATHER_PM2P5","NEG_TAG_NUM","POS_TAG_NUM"
+,"ALL_TAG_NUM","NEG_TAG_RATIO","oftenBuy","RT_Book","viewedPoi_Deals"
+,"viewedPb","viewed","rt-search","llr_usercf_new","collected"
+,"userbased_orderpoi","llr_usercf_timectx","bookmark","lprice","rtub_v"
+,"rt_area_mix","rtub_c","rtub_o","rt_area_view","item_ocf"
+,"querybased","item_vcf","rt_geo","rtal_home","llr_usercf_poi"
+,"rtal_work","rt_geo_rtFavor","bak","geo_rtFavor","bak_rtFavor"
+,"geo","hot_rtFavor","hot","rt-loc-new","homepage-hot"
+,"CLUSTER_12","CLUSTER_5","CLUSTER_4","CLUSTER_18","CLUSTER_14"
+,"CLUSTER_OTHER","PROMOTION_TYPE_A","PROMOTION_TYPE_B","PROMOTION_TYPE_C","PROMOTION_TYPE_D"
+,"PROMOTION_VALUE","RECOMMEND_CONSUME_CNT","rt_area_mix_RATIO","viewed_RATIO","rt_area_view_RATIO"
+,"llr_usercf_timectx_RATIO","viewedPoi_Deals_RATIO","llr_usercf_new_RATIO","viewedPb_RATIO","userbased_orderpoi_RATIO"
+,"lprice_RATIO","rtal_home_RATIO","item_vcf_RATIO","RT_Book_RATIO","rt-search_RATIO"
+,"rtal_work_RATIO","hot_RATIO","collected_RATIO","item_ocf_RATIO","oftenBuy_RATIO"
+,"ISMULTICITY","HPRECSALECNT","USER_CITYPREF","USER_RTGEO_PREF","USER_DEALGEO_PREF"
+,"USER_HOME_DIS","USER_WORK_DIS","USER_CONSUME_DIS","SLCT_RETURNED","SLCT_RETURN_TIME"
+,"rt_area_mix_score","rt_area_view_score","rtal_home_score","rtal_work_score","llr_usercf_timectx_score"
+,"llr_usercf_new_score","rt-search_score","userbased_orderpoi_score","item_ocf_score","querybased_score"
+,"item_vcf_score","DEAL_USER_REC_HIS","DEAL_USER_CLI_HIS","GEOHASH_DEAL_TRANSFER_RATIO","CSSCORE_TOP3"
+,"CSSCORE_TOP10","CSSCORE_TOP30","rt_area_mix_score_ratio3","rt_area_mix_score_ratio10","rt_area_mix_score_ratio30"
+,"IS_WIFI_POI_DEAL","IS_CONSUME_POI_DEAL","USER_RESI_CITY","USER_RESI_PREF","chooseDiffCity-chooseNotResiCity"
+,"chooseDiffCity-chooseResiCity","chooseDiffCity-unkown","chooseSameCity-chooseNotResiCity","chooseSameCity-chooseResiCity","chooseSameCity-unkown"
+,"男","女","AGE_20以下","AGE_20~25","AGE_25~30"
+,"AGE_30~35","AGE_35~40","AGE_40以上","金牛座","天蝎座"
+,"处女座","牡羊座","水瓶座","射手座","狮子座"
+,"双子座","天秤座","巨蟹座","双鱼座","摩羯座"
+,"MARRIED","HAS_CHILD","JOB_白领","JOB_学生","JOB_其他"
+,"HAS_CAR","NEG_FEEDBACK","ONLINE_DAYS","TOTAL_SHOW","CXR_CITY"
+,"CXR_DIS","CXR_TIME","CXR_TIME_20_9","CXR_TIME_10_11","CXR_TIME_12_13"
+,"CXR_TIME_14_17","CXR_TIME_18_19","CVR_CITY","CVR_DIS","CVR_TIME"
+,"CVR_TIME_20_9","CVR_TIME_10_11","CVR_TIME_12_13","CVR_TIME_14_17","CVR_TIME_18_19"
+,"CTR_CITY","CTR_DIS","CTR_TIME","CTR_TIME_20_9","CTR_TIME_10_11"
+,"CTR_TIME_12_13","CTR_TIME_14_17","CTR_TIME_18_19","REC_NUM_CITY","REC_NUM_DIS"
+,"REC_NUM_TIME","REC_NUM_TIME_20_9","REC_NUM_TIME_10_11","REC_NUM_TIME_12_13","REC_NUM_TIME_14_17"
+,"REC_NUM_TIME_18_19","CLICK_NUM_CITY","CLICK_NUM_DIS","CLICK_NUM_TIME","CLICK_NUM_TIME_20_9"
+,"CLICK_NUM_TIME_10_11","CLICK_NUM_TIME_12_13","CLICK_NUM_TIME_14_17","CLICK_NUM_TIME_18_19","ORDER_NUM_CITY"
+,"ORDER_NUM_DIS","ORDER_NUM_TIME","ORDER_NUM_TIME_20_9","ORDER_NUM_TIME_10_11","ORDER_NUM_TIME_12_13"
+,"ORDER_NUM_TIME_14_17","ORDER_NUM_TIME_18_19","CXR_CLASS_TIME","CVR_CLASS_TIME","CTR_CLASS_TIME"
+,"CXR_CLASS_DIS","CVR_CLASS_DIS","CTR_CLASS_DIS","CXR_CLASS_CITY","CVR_CLASS_CITY"
+,"CTR_CLASS_CITY","CLASS5005,POI_CLASS5005","TYPE756","CLASS_ORDERED_PASSED_TIME","CATE_ORDERED_PASSED_TIME"
+,"BRAND_ORDERED_PASSED_TIME","CLASS_VIEWED_PASSED_TIME","CATE_VIEWED_PASSED_TIME","BRAND_VIEWED_PASSED_TIME","BRAND_COLLECTED"
+,"BRAND_ORDERED_NEW","BRAND_VIEWED_NEW","DEAL_ORDERED_NEW","DEAL_VIEWED_NEW","TYPE_ORDERED_NEW"
+,"TYPE_VIEWED_NEW","BUZ_ORDERED_NEW","BUZ_VIEWED_NEW","WAIMAI_VIEWED","WAIMAI_ORDERED"
+,"CLASS_ORDERED_PASSED_TIME_NEW","CATE_ORDERED_PASSED_TIME_NEW","TYPE_ORDERED_PASSED_TIME_NEW","BUZ_ORDERED_PASSED_TIME_NEW","BRAND_ORDERED_PASSED_TIME_NEW"
+,"CLASS_VIEWED_PASSED_TIME_NEW","CATE_VIEWED_PASSED_TIME_NEW","TYPE_VIEWED_PASSED_TIME_NEW","BRAND_VIEWED_PASSED_TIME_NEW","BUZ_VIEWED_PASSED_TIME_NEW"
+,"WAIMAI_ORDERED_PASSED_TIME","WAIMAI_VIEWED_PASSED_TIME","POI_MARKNUMBERS","POI_LATESTWEEKCOUPON","POI_ISHOT"
+,"POI_SCORERATIO","USER_ALL_VIEW_NUM","USER_ALL_ORDER_NUM","POI_GROUP","DEAL_GROUP"
+,"POI_HOTEL","DEAL_AD","MPOI_MOVIE","POI_WAIMAI","POI_MAITON"
+,"POI_LVYOU","SDEAL_SHOW","ODEAL_OVERSEAS","BIZ_AREA","IS_NEW_USER"
+,"MonthSaleNum","DAOZHONG_CATE_FAVOR","SALES_COUNT_BY_GEO_DTYPE","2HOUR_RT_SALES_COUNT","OPEN_NOW"
+,"MIN_PRICE","SHIPPING_FEE","SHIPPING_MEITUAN","SHIPPING_ZHONGBAO","SHIPPING_ZIPEI"
+,"AVG_DELIVERY_TIME","ORDER_NUM_TODAY","AVG_AMOUNT","AVG_AMOUNT_MONTH","AVG_FACT_AMOUNT"
+,"AVG_FACT_AMOUNT_MONTH","POI_SCORE","FOOD_AVG_SCORE","DELIVERY_AVG_SCORE","POI_OPEN_DAYS"
+,"WAIMAI_CTR","WAIMAI_CVR","WAIMAI_CXR"]
 LABEL_COLUMN = "label"
-CATEGORICAL_COLUMNS = ["workclass", "education", "marital_status", "occupation",
-                       "relationship", "race", "gender", "native_country"]
-CONTINUOUS_COLUMNS = ["age", "education_num", "capital_gain", "capital_loss",
-                      "hours_per_week"]
+##CATEGORICAL_COLUMNS = ["workclass", "education", "marital_status", "occupation",
+##                       "relationship", "race", "gender", "native_country"]
+
+CATEGORICAL_COLUMNS = []
+CONTINUOUS_COLUMNS = ["DISTANCE", "2hourSale", "24hourSale", "CTR_TEST",
+                      "CXR_TEST","CVR_TEST"]
 
 
 def maybe_download():
@@ -77,6 +158,7 @@ def maybe_download():
 def build_estimator(model_dir):
   """Build an estimator."""
   # Sparse base columns.
+  '''
   gender = tf.contrib.layers.sparse_column_with_keys(column_name="gender",
                                                      keys=["female", "male"])
   education = tf.contrib.layers.sparse_column_with_hash_bucket(
@@ -89,44 +171,50 @@ def build_estimator(model_dir):
       "occupation", hash_bucket_size=1000)
   native_country = tf.contrib.layers.sparse_column_with_hash_bucket(
       "native_country", hash_bucket_size=1000)
+  '''
 
   # Continuous base columns.
-  age = tf.contrib.layers.real_valued_column("age")
-  education_num = tf.contrib.layers.real_valued_column("education_num")
-  capital_gain = tf.contrib.layers.real_valued_column("capital_gain")
-  capital_loss = tf.contrib.layers.real_valued_column("capital_loss")
-  hours_per_week = tf.contrib.layers.real_valued_column("hours_per_week")
+  ##age = tf.contrib.layers.real_valued_column("age")
+  distance = tf.contrib.layers.real_valued_column("DISTANCE")
+  sale_2_hour = tf.contrib.layers.real_valued_column("2hourSale")
+  sale_24_hour = tf.contrib.layers.real_valued_column("24hourSale")
+  ctr = tf.contrib.layers.real_valued_column("CTR_TEST")
+  cxr = tf.contrib.layers.real_valued_column("CXR_TEST")
+  cvr = tf.contrib.layers.real_valued_column("CVR_TEST")
 
   # Transformations.
+  '''
   age_buckets = tf.contrib.layers.bucketized_column(age,
                                                     boundaries=[
                                                         18, 25, 30, 35, 40, 45,
                                                         50, 55, 60, 65
                                                     ])
+  '''
 
   # Wide columns and deep columns.
-  wide_columns = [gender, native_country, education, occupation, workclass,
-                  relationship, age_buckets,
-                  tf.contrib.layers.crossed_column([education, occupation],
-                                                   hash_bucket_size=int(1e4)),
-                  tf.contrib.layers.crossed_column(
-                      [age_buckets, education, occupation],
-                      hash_bucket_size=int(1e6)),
-                  tf.contrib.layers.crossed_column([native_country, occupation],
-                                                   hash_bucket_size=int(1e4))]
+  wide_columns = [distance, sale_2_hour, sale_24_hour, ctr, cxr,
+                  cvr]
+                  #tf.contrib.layers.crossed_column([distance, ctr],
+                  #                                 hash_bucket_size=int(1e4)),
+                  #tf.contrib.layers.crossed_column(
+                  #    [distance,sale_2_hour,ctr],
+                  #    hash_bucket_size=int(1e6)),
+                  #tf.contrib.layers.crossed_column([sale_2_hour, ctr],
+                  #                                 hash_bucket_size=int(1e4))]
   deep_columns = [
-      tf.contrib.layers.embedding_column(workclass, dimension=8),
-      tf.contrib.layers.embedding_column(education, dimension=8),
-      tf.contrib.layers.embedding_column(gender, dimension=8),
-      tf.contrib.layers.embedding_column(relationship, dimension=8),
-      tf.contrib.layers.embedding_column(native_country,
-                                         dimension=8),
-      tf.contrib.layers.embedding_column(occupation, dimension=8),
-      age,
-      education_num,
-      capital_gain,
-      capital_loss,
-      hours_per_week,
+      ##tf.contrib.layers.embedding_column(workclass, dimension=8),
+      ##tf.contrib.layers.embedding_column(education, dimension=8),
+      ##tf.contrib.layers.embedding_column(gender, dimension=8),
+      ##tf.contrib.layers.embedding_column(relationship, dimension=8),
+      ##tf.contrib.layers.embedding_column(native_country,
+      ##                                   dimension=8),
+      ##tf.contrib.layers.embedding_column(occupation, dimension=8),
+      distance,
+      sale_2_hour,
+      sale_24_hour,
+      ctr,
+      cxr,
+      cvr
   ]
   #print("wide_columns =",wide_columns)
   #print("deep_columns =",deep_columns)
@@ -202,7 +290,7 @@ def train_and_eval():
   ##    df_train["income_bracket"].apply(lambda x: ">50K" in x)).astype(int)
   ##df_test[LABEL_COLUMN] = (
   ##    df_test["income_bracket"].apply(lambda x: ">50K" in x)).astype(int)
-  print("labels=",df_test[LABEL_COLUMN])
+  ##print("labels=",df_test[LABEL_COLUMN])
 
   model_dir = tempfile.mkdtemp() if not FLAGS.model_dir else FLAGS.model_dir
   ##print("model directory = %s" % model_dir)
