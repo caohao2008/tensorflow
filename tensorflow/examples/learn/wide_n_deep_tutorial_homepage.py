@@ -22,6 +22,7 @@ from six.moves import urllib
 
 import pandas as pd
 import tensorflow as tf
+import re
 
 flags = tf.app.flags
 FLAGS = flags.FLAGS
@@ -128,10 +129,29 @@ LABEL_COLUMN = "label"
 ##                       "relationship", "race", "gender", "native_country"]
 
 CATEGORICAL_COLUMNS = []
+
 CONTINUOUS_COLUMNS = ["DISTANCE", "2hourSale", "24hourSale", "CTR_TEST",
-                      "CXR_TEST","CVR_TEST","viewedPoi_Deals","viewedPb","viewed","rt_area_mix","rt_area_view","USER_ALL_VIEW_NUM","CLASS_VIEWED_PASSED_TIME_NEW","ADISTANCE","USER_ALL_ORDER_NUM","NUMRESULTS","SALES_COUNT_BY_GEO_DTYPE","ONLINE_DAYS","GEOHASH_DEAL_TRANSFER_RATIO"]
+                      "CXR_TEST","CVR_TEST","viewedPoi_Deals","viewedPb","viewed","rt_area_mix","rt_area_view","USER_ALL_VIEW_NUM","CLASS_VIEWED_PASSED_TIME_NEW","ADISTANCE","USER_ALL_ORDER_NUM","NUMRESULTS","SALES_COUNT_BY_GEO_DTYPE","ONLINE_DAYS","GEOHASH_DEAL_TRANSFER_RATIO",
+                      "USER_WORK_DIS","USER_CITYPREF","AVGPRICEPERPERSON","DEAL_USER_REC_HIS","USER_HOME_DIS","USER_RTGEO_PREF","AREA_AMOUNT","CTR_CLASS_TIME","COMMENT_NUM","USER_LEVEL","BRAND_VIEWED_PASSED_TIME_NEW","WAIMAI_ORDERED_PASSED_TIME","CTR_CLASS_DIS","BUZ_ORDERED_PASSED_TIME_NEW","BUZ_VIEWED_PASSED_TIME",
+    "CTR_CITY","USER_FEEDBACK_SCORE","CATE_VIEWED_PASSED_TIME_NEW","CSSCORE_TOP30",
+    "DEAL_USER_CLI_HIS","CLICK_NUM_CITY","BRAND_ORDERED_PASSED_TIME_NEW","BUZ_ORDERED_PASSED_TIME","CSSCORE_TOP3","PICTURE_RATIO","IS_WIFI_POI_DEAL","TYPE_VIEWED_PASSED_TIME_NEW","WEATHER_TMP_MAX",
+    "CTR_DIS","CLASS_VIEWED_PASSED_TIME","REC_NUM_CITY","rt_area_view_score","WEATHER_TMP_MIN","NEG_TAG_RATIO"
+    ,"DEAL_POI_NUM","SLCT_RETURN_TIME","RATECOUNT","CLASS_ORDERED_PASSED_TIME","WEATHER_TMP",
+    "RATEVAL","PAYMENT_INCR","item_vcf_score","CSSCORE_TOP10","REC_NUM_DIS","CXR_CITY","CXR_CLASS_TIME","CATE_ORDERED_PASSED_TIME_NEW"                
+    ,"CVR_CITY","CVR_CLASS_TIME","CLIENT_ANDROID","TYPE_VIEWED_PASSED_TIME",
+    ,"HPRECSALECNT","querybased_score","POI_MARKNUMBERS","CATE_VIEWED_PASSED_TIME","CLIENT_IPHONE","CTR_TIME","CTR_TIME_10_11","CATE_ORDERED_PASSED_TIME","RELAY_RATIO"
+    ,"CXR_CLASS_DIS","TYPE_ORDERED_PASSED_TIME_NEW","CLICK_NUM_DIS","item_ocf_score","CTR_TIME_14_17","CTR_TIME_12_13","ORDER_NUM_CITY","TYPE_ORDERED_PASSED_TIME","CTR_TIME_18_19","MEAL_COUNT","CLICK_NUM_TIME",
+    "GCOMMENT_RATIO","staticSaleScore","userbased_orderpoi_score","2HOUR_RT_SALES_COUNT"
+                     ]
 
-
+'''
+CONTINUOUS_COLUMNS = []
+for feature in COLUMNS[1:]:
+    if re.match(r'^[a-zA-Z_]+$',feature):
+        if feature.find(",")==-1:
+            CONTINUOUS_COLUMNS.append(feature)
+            ##print("append ",feature)
+'''
 def maybe_download():
   """Maybe downloads training data and returns train and test file names."""
   if FLAGS.train_data:
@@ -154,6 +174,7 @@ def maybe_download():
   
   return train_file_name, test_file_name
 
+features=[]
 
 def build_estimator(model_dir):
   """Build an estimator."""
@@ -175,6 +196,10 @@ def build_estimator(model_dir):
 
   # Continuous base columns.
   ##age = tf.contrib.layers.real_valued_column("age")
+  for feature in CONTINUOUS_COLUMNS:
+      features.append(tf.contrib.layers.real_valued_column(feature))
+      ###print(features)
+  '''
   distance = tf.contrib.layers.real_valued_column("DISTANCE")
   sale_2_hour = tf.contrib.layers.real_valued_column("2hourSale")
   sale_24_hour = tf.contrib.layers.real_valued_column("24hourSale")
@@ -194,7 +219,21 @@ def build_estimator(model_dir):
   adistance = tf.contrib.layers.real_valued_column("ADISTANCE")
   numresults = tf.contrib.layers.real_valued_column("NUMRESULTS")
   geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("GEOHASH_DEAL_TRANSFER_RATIO")
-
+  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("PRICE,POI_LOWESTPIRCE")
+  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("USER_WORK_DIS")
+  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("CTR,POI_CTR")
+  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("USER_CITYPREF")
+  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("AVGPRICEPERPERSON")
+  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("DEAL_USER_REC_HIS")
+  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("USER_HOME_DIS")
+  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("DISCOUNT,POI_DISCOUNT")
+  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("USER_RTGEO_PREF")
+  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("AREA_AMOUNT")
+  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("CXR,POI_CXR")
+  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("CTR_CLASS_TIME")
+  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("CTR_CLASS_TIME")
+  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("AREA_AMOUNT")
+  '''
 
   # Transformations.
   '''
@@ -206,9 +245,12 @@ def build_estimator(model_dir):
   '''
 
   # Wide columns and deep columns.
+  '''
   wide_columns = [distance, sale_2_hour, sale_24_hour, ctr, cxr,
                   cvr,viewedpoideal,viewpd,viewed,rt_area_mix,rt_area_view,
                   user_all_view_num, class_viewd_passed_time,adistance,user_all_order_num,numresults,sales_count_by_geo_dtype,online_days,geohash_deal_transfer_ratio]
+  '''
+  wide_columns = features
                   #tf.contrib.layers.crossed_column([distance, ctr],
                   #                                 hash_bucket_size=int(1e4)),
                   #tf.contrib.layers.crossed_column(
@@ -216,6 +258,7 @@ def build_estimator(model_dir):
                   #    hash_bucket_size=int(1e6)),
                   #tf.contrib.layers.crossed_column([sale_2_hour, ctr],
                   #                                 hash_bucket_size=int(1e4))]
+  '''
   deep_columns = [
       ##tf.contrib.layers.embedding_column(workclass, dimension=8),
       ##tf.contrib.layers.embedding_column(education, dimension=8),
@@ -233,6 +276,8 @@ def build_estimator(model_dir):
       viewedpoideal,viewpd,viewed,rt_area_mix,rt_area_view,
       user_all_view_num, class_viewd_passed_time,adistance,user_all_order_num,numresults,sales_count_by_geo_dtype,online_days,geohash_deal_transfer_ratio
   ]
+  '''
+  deep_columns = features
   #print("wide_columns =",wide_columns)
   #print("deep_columns =",deep_columns)
 
