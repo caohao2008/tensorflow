@@ -129,7 +129,7 @@ LABEL_COLUMN = "label"
 
 CATEGORICAL_COLUMNS = []
 CONTINUOUS_COLUMNS = ["DISTANCE", "2hourSale", "24hourSale", "CTR_TEST",
-                      "CXR_TEST","CVR_TEST"]
+                      "CXR_TEST","CVR_TEST","viewedPoi_Deals","viewedPb","viewed","rt_area_mix","rt_area_view","USER_ALL_VIEW_NUM","CLASS_VIEWED_PASSED_TIME_NEW","ADISTANCE","USER_ALL_ORDER_NUM","NUMRESULTS","SALES_COUNT_BY_GEO_DTYPE","ONLINE_DAYS","GEOHASH_DEAL_TRANSFER_RATIO"]
 
 
 def maybe_download():
@@ -181,6 +181,20 @@ def build_estimator(model_dir):
   ctr = tf.contrib.layers.real_valued_column("CTR_TEST")
   cxr = tf.contrib.layers.real_valued_column("CXR_TEST")
   cvr = tf.contrib.layers.real_valued_column("CVR_TEST")
+  viewedpoideal = tf.contrib.layers.real_valued_column("viewedPoi_Deals")
+  viewpd = tf.contrib.layers.real_valued_column("viewedPb")
+  viewed = tf.contrib.layers.real_valued_column("viewed")
+  rt_area_mix = tf.contrib.layers.real_valued_column("rt_area_mix")
+  rt_area_view = tf.contrib.layers.real_valued_column("rt_area_view")
+  user_all_view_num = tf.contrib.layers.real_valued_column("USER_ALL_VIEW_NUM")
+  user_all_order_num = tf.contrib.layers.real_valued_column("USER_ALL_ORDER_NUM")
+  sales_count_by_geo_dtype = tf.contrib.layers.real_valued_column("SALES_COUNT_BY_GEO_DTYPE")
+  online_days = tf.contrib.layers.real_valued_column("ONLINE_DAYS")
+  class_viewd_passed_time = tf.contrib.layers.real_valued_column("CLASS_VIEWED_PASSED_TIME_NEW")
+  adistance = tf.contrib.layers.real_valued_column("ADISTANCE")
+  numresults = tf.contrib.layers.real_valued_column("NUMRESULTS")
+  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("GEOHASH_DEAL_TRANSFER_RATIO")
+
 
   # Transformations.
   '''
@@ -193,7 +207,8 @@ def build_estimator(model_dir):
 
   # Wide columns and deep columns.
   wide_columns = [distance, sale_2_hour, sale_24_hour, ctr, cxr,
-                  cvr]
+                  cvr,viewedpoideal,viewpd,viewed,rt_area_mix,rt_area_view,
+                  user_all_view_num, class_viewd_passed_time,adistance,user_all_order_num,numresults,sales_count_by_geo_dtype,online_days,geohash_deal_transfer_ratio]
                   #tf.contrib.layers.crossed_column([distance, ctr],
                   #                                 hash_bucket_size=int(1e4)),
                   #tf.contrib.layers.crossed_column(
@@ -214,7 +229,9 @@ def build_estimator(model_dir):
       sale_24_hour,
       ctr,
       cxr,
-      cvr
+      cvr,
+      viewedpoideal,viewpd,viewed,rt_area_mix,rt_area_view,
+      user_all_view_num, class_viewd_passed_time,adistance,user_all_order_num,numresults,sales_count_by_geo_dtype,online_days,geohash_deal_transfer_ratio
   ]
   #print("wide_columns =",wide_columns)
   #print("deep_columns =",deep_columns)

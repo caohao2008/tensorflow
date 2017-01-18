@@ -8,4 +8,3 @@ comment these code
     #                   'This usually means that the column is almost identical '
     #                   'to another column, and one must be discarded.'.format(
     #                       f.name))
- 
