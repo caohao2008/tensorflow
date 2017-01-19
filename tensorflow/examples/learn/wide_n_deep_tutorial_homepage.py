@@ -41,10 +41,6 @@ flags.DEFINE_string(
     "Path to the test data.")
 
 
-###COLUMNS = ["label","age", "workclass", "fnlwgt", "education", "education_num",
-###           "marital_status", "occupation", "relationship", "race", "gender",
-###           "capital_gain", "capital_loss", "hours_per_week", "native_country",
-###           "income_bracket",]
 COLUMNS = ["label","ADISTANCE","APPOINTMENT","DEAL_COLLECTED","TYPE_COLLECTED","COUPON0"
 ,"COUPON1","COUPON2","COUPON3","TYPE_VIEWED_PASSED_TIME","COUPON5"
 ,"DAYOFWEEK1","DAYOFWEEK2","DAYOFWEEK3","DAYOFWEEK4","DAYOFWEEK5"
@@ -125,8 +121,6 @@ COLUMNS = ["label","ADISTANCE","APPOINTMENT","DEAL_COLLECTED","TYPE_COLLECTED","
 ,"AVG_FACT_AMOUNT_MONTH","POI_SCORE","FOOD_AVG_SCORE","DELIVERY_AVG_SCORE","POI_OPEN_DAYS"
 ,"WAIMAI_CTR","WAIMAI_CVR","WAIMAI_CXR"]
 LABEL_COLUMN = "label"
-##CATEGORICAL_COLUMNS = ["workclass", "education", "marital_status", "occupation",
-##                       "relationship", "race", "gender", "native_country"]
 
 CATEGORICAL_COLUMNS = []
 
@@ -144,14 +138,6 @@ CONTINUOUS_COLUMNS = ["DISTANCE", "2hourSale", "24hourSale", "CTR_TEST",
     "GCOMMENT_RATIO","staticSaleScore","userbased_orderpoi_score","2HOUR_RT_SALES_COUNT"
                      ]
 
-'''
-CONTINUOUS_COLUMNS = []
-for feature in COLUMNS[1:]:
-    if re.match(r'^[a-zA-Z_]+$',feature):
-        if feature.find(",")==-1:
-            CONTINUOUS_COLUMNS.append(feature)
-            ##print("append ",feature)
-'''
 def maybe_download():
   """Maybe downloads training data and returns train and test file names."""
   if FLAGS.train_data:
@@ -179,104 +165,15 @@ features=[]
 def build_estimator(model_dir):
   """Build an estimator."""
   # Sparse base columns.
-  '''
-  gender = tf.contrib.layers.sparse_column_with_keys(column_name="gender",
-                                                     keys=["female", "male"])
-  education = tf.contrib.layers.sparse_column_with_hash_bucket(
-      "education", hash_bucket_size=1000)
-  relationship = tf.contrib.layers.sparse_column_with_hash_bucket(
-      "relationship", hash_bucket_size=100)
-  workclass = tf.contrib.layers.sparse_column_with_hash_bucket(
-      "workclass", hash_bucket_size=100)
-  occupation = tf.contrib.layers.sparse_column_with_hash_bucket(
-      "occupation", hash_bucket_size=1000)
-  native_country = tf.contrib.layers.sparse_column_with_hash_bucket(
-      "native_country", hash_bucket_size=1000)
-  '''
 
   # Continuous base columns.
   ##age = tf.contrib.layers.real_valued_column("age")
   for feature in CONTINUOUS_COLUMNS:
       features.append(tf.contrib.layers.real_valued_column(feature))
-      ###print(features)
-  '''
-  distance = tf.contrib.layers.real_valued_column("DISTANCE")
-  sale_2_hour = tf.contrib.layers.real_valued_column("2hourSale")
-  sale_24_hour = tf.contrib.layers.real_valued_column("24hourSale")
-  ctr = tf.contrib.layers.real_valued_column("CTR_TEST")
-  cxr = tf.contrib.layers.real_valued_column("CXR_TEST")
-  cvr = tf.contrib.layers.real_valued_column("CVR_TEST")
-  viewedpoideal = tf.contrib.layers.real_valued_column("viewedPoi_Deals")
-  viewpd = tf.contrib.layers.real_valued_column("viewedPb")
-  viewed = tf.contrib.layers.real_valued_column("viewed")
-  rt_area_mix = tf.contrib.layers.real_valued_column("rt_area_mix")
-  rt_area_view = tf.contrib.layers.real_valued_column("rt_area_view")
-  user_all_view_num = tf.contrib.layers.real_valued_column("USER_ALL_VIEW_NUM")
-  user_all_order_num = tf.contrib.layers.real_valued_column("USER_ALL_ORDER_NUM")
-  sales_count_by_geo_dtype = tf.contrib.layers.real_valued_column("SALES_COUNT_BY_GEO_DTYPE")
-  online_days = tf.contrib.layers.real_valued_column("ONLINE_DAYS")
-  class_viewd_passed_time = tf.contrib.layers.real_valued_column("CLASS_VIEWED_PASSED_TIME_NEW")
-  adistance = tf.contrib.layers.real_valued_column("ADISTANCE")
-  numresults = tf.contrib.layers.real_valued_column("NUMRESULTS")
-  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("GEOHASH_DEAL_TRANSFER_RATIO")
-  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("PRICE,POI_LOWESTPIRCE")
-  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("USER_WORK_DIS")
-  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("CTR,POI_CTR")
-  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("USER_CITYPREF")
-  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("AVGPRICEPERPERSON")
-  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("DEAL_USER_REC_HIS")
-  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("USER_HOME_DIS")
-  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("DISCOUNT,POI_DISCOUNT")
-  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("USER_RTGEO_PREF")
-  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("AREA_AMOUNT")
-  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("CXR,POI_CXR")
-  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("CTR_CLASS_TIME")
-  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("CTR_CLASS_TIME")
-  geohash_deal_transfer_ratio = tf.contrib.layers.real_valued_column("AREA_AMOUNT")
-  '''
 
   # Transformations.
-  '''
-  age_buckets = tf.contrib.layers.bucketized_column(age,
-                                                    boundaries=[
-                                                        18, 25, 30, 35, 40, 45,
-                                                        50, 55, 60, 65
-                                                    ])
-  '''
-
   # Wide columns and deep columns.
-  '''
-  wide_columns = [distance, sale_2_hour, sale_24_hour, ctr, cxr,
-                  cvr,viewedpoideal,viewpd,viewed,rt_area_mix,rt_area_view,
-                  user_all_view_num, class_viewd_passed_time,adistance,user_all_order_num,numresults,sales_count_by_geo_dtype,online_days,geohash_deal_transfer_ratio]
-  '''
   wide_columns = features
-                  #tf.contrib.layers.crossed_column([distance, ctr],
-                  #                                 hash_bucket_size=int(1e4)),
-                  #tf.contrib.layers.crossed_column(
-                  #    [distance,sale_2_hour,ctr],
-                  #    hash_bucket_size=int(1e6)),
-                  #tf.contrib.layers.crossed_column([sale_2_hour, ctr],
-                  #                                 hash_bucket_size=int(1e4))]
-  '''
-  deep_columns = [
-      ##tf.contrib.layers.embedding_column(workclass, dimension=8),
-      ##tf.contrib.layers.embedding_column(education, dimension=8),
-      ##tf.contrib.layers.embedding_column(gender, dimension=8),
-      ##tf.contrib.layers.embedding_column(relationship, dimension=8),
-      ##tf.contrib.layers.embedding_column(native_country,
-      ##                                   dimension=8),
-      ##tf.contrib.layers.embedding_column(occupation, dimension=8),
-      distance,
-      sale_2_hour,
-      sale_24_hour,
-      ctr,
-      cxr,
-      cvr,
-      viewedpoideal,viewpd,viewed,rt_area_mix,rt_area_view,
-      user_all_view_num, class_viewd_passed_time,adistance,user_all_order_num,numresults,sales_count_by_geo_dtype,online_days,geohash_deal_transfer_ratio
-  ]
-  '''
   deep_columns = features
   #print("wide_columns =",wide_columns)
   #print("deep_columns =",deep_columns)
@@ -347,12 +244,6 @@ def train_and_eval():
   # remove NaN elements
   df_train = df_train.dropna(how='any', axis=0)
   df_test = df_test.dropna(how='any', axis=0)
-  
-  ##df_train[LABEL_COLUMN] = (
-  ##    df_train["income_bracket"].apply(lambda x: ">50K" in x)).astype(int)
-  ##df_test[LABEL_COLUMN] = (
-  ##    df_test["income_bracket"].apply(lambda x: ">50K" in x)).astype(int)
-  ##print("labels=",df_test[LABEL_COLUMN])
 
   model_dir = tempfile.mkdtemp() if not FLAGS.model_dir else FLAGS.model_dir
   ##print("model directory = %s" % model_dir)
@@ -362,7 +253,6 @@ def train_and_eval():
   results = m.evaluate(input_fn=lambda: input_fn(df_test), steps=1)
   for key in sorted(results):
     print("%s: %s" % (key, results[key]))
-
 
 
 def main(_):
